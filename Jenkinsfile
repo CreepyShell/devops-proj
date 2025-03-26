@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/CreepyShell/devops-com.git'
+                git branch: 'main', url: 'https://github.com/CreepyShell/devops-proj.git'
             }
         }
         stage('Build') {
