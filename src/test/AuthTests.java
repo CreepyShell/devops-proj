@@ -1,9 +1,9 @@
 import org.junit.Test;
 import org.mockito.Mockito;
-import proj.models.PlaneDb;
-import proj.models.User;
-import proj.services.AuthenticationService;
-import proj.services.custom_exceptions.ValidationException;
+import com.models.PlaneDb;
+import com.models.User;
+import com.services.AuthenticationService;
+import com.services.custom_exceptions.ValidationException;
 
 import java.util.ArrayList;
 import java.util.List;
