@@ -18,11 +18,9 @@ pipeline {
             }
         }
 
-        stage('Run Application') {
-            timeout(time: 30, unit: 'SECONDS') {
-                bat 'cd target && dir'
-                bat 'java -jar target/SwingApp-1.0-SNAPSHOT.jar'
-            }
+        timeout(time: 30, unit: 'SECONDS') {
+            bat 'cd target && dir'
+            bat 'java -jar target/SwingApp-1.0-SNAPSHOT.jar'
         }
     }
 }
