@@ -21,7 +21,7 @@ pipeline {
         stage('Run Application') {
             steps {
                 bat 'cd target && dir'
-                bat 'java -jar target/*.jar'
+                bat 'java -jar target/SwingApp-1.0-SNAPSHOT.jar'
             }
         }
     }
