@@ -198,15 +198,18 @@ public class PlaneDb {
             JSONObject currentObj = array.getJSONObject(i);
             Plane routePlane = null;
             if (!currentObj.isNull("passengerPlane")) {
-                routePlane = json.fromJson(currentObj.getString("passengerPlane"), PassengerPlane.class);
+                JSONObject planeObj = currentObj.getJSONObject("passengerPlane");
+                routePlane = json.fromJson(planeObj.toString(), PassengerPlane.class);
                 currentObj.remove("passengerPlane");
             }
             if (!currentObj.isNull("privatePlane")) {
-                routePlane = json.fromJson(currentObj.getString("privatePlane"), PrivatePlane.class);
+                JSONObject planeObj = currentObj.getJSONObject("privatePlane");
+                routePlane = json.fromJson(planeObj.toString(), PrivatePlane.class);
                 currentObj.remove("privatePlane");
             }
             if (!currentObj.isNull("cargoPlane")) {
-                routePlane = json.fromJson(currentObj.getString("cargoPlane"), CargoPlane.class);
+                JSONObject planeObj = currentObj.getJSONObject("cargoPlane");
+                routePlane = json.fromJson(planeObj.toString(), CargoPlane.class);
                 currentObj.remove("cargoPlane");
             }
             Route route = json.fromJson(currentObj.toString(), Route.class);

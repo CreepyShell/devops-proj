@@ -18,14 +18,6 @@ pipeline {
             }
         }
 
-        stage('Run Application') {
-            steps {
-                timeout(time: 30, unit: 'SECONDS') {
-                    bat 'cd target && dir'
-                    // bat 'java -jar target/SwingApp-1.0-SNAPSHOT.jar'
-                }
-            }
-        }
         stage('SonarQube Analysis') {
             environment {
                 SONAR_TOKEN = credentials('sonarqube-token')
@@ -34,6 +26,13 @@ pipeline {
                 bat 'mvn sonar:sonar -Dsonar.projectKey=AirplaneProject -Dsonar.projectName="AirplaneProject" -Dsonar.token=%SONAR_TOKEN%'
             }
         }
-
+        stage('Run Application') {
+            steps {
+                timeout(time: 30, unit: 'SECONDS') {
+                    bat 'cd target && dir'
+                    bat 'java -jar target/SwingApp-1.0-SNAPSHOT.jar 809sd'
+                }
+            }
+        }
     }
 }
