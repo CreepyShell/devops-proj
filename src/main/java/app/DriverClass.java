@@ -22,6 +22,14 @@ public class DriverClass {
     public static void main(String[] args) throws IOException {
         if (args.length > 0) {
             try {
+                fileService = new FileService();
+                planeDb = PlaneDb.getPlainDb(fileService);
+                ticketService = new TicketService(planeDb);
+                locationService = new LocationService(planeDb);
+                routeService = new RouteService(planeDb, locationService);
+                authService = new AuthenticationService(planeDb);
+                WindowsManager windowsManager = WindowsManager.getInstance(currentUser, ticketService, routeService, locationService, authService);
+//                windowsManager.openIntroductionWindow();
                 int port = Integer.parseInt(args[0]);
                 new LocationAPI(port, fileService);
             } catch (NumberFormatException e) {
@@ -30,13 +38,5 @@ public class DriverClass {
         } else {
             System.err.println("No port provided, can not run the application");
         }
-        fileService = new FileService();
-        planeDb = PlaneDb.getPlainDb(fileService);
-        ticketService = new TicketService(planeDb);
-        locationService = new LocationService(planeDb);
-        routeService = new RouteService(planeDb, locationService);
-        authService = new AuthenticationService(planeDb);
-        WindowsManager windowsManager = WindowsManager.getInstance(currentUser, ticketService, routeService, locationService, authService);
-//        windowsManager.openIntroductionWindow();
     }
 }
