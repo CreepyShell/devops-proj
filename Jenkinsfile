@@ -30,7 +30,7 @@ pipeline {
             steps {
                 timeout(time: 30, unit: 'SECONDS') {
                     bat 'cd target && dir'
-                    bat 'java -jar target/SwingApp-1.0-SNAPSHOT.jar 809sd'
+                    bat 'java -jar target/SwingApp-1.0-SNAPSHOT.jar 8089'
                 }
             }
         }
