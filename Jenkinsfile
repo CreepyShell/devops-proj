@@ -30,7 +30,7 @@ pipeline {
             steps {
                 bat 'docker build -t devops-app .'
                 // bat 'docker run -p 9090:9090 -e APP_PORT=9090 devops-app'
-                sh 'docker ps'
+                bat 'docker ps'
             }
         }
     }
