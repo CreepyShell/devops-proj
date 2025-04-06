@@ -33,7 +33,7 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                         bat """
-                            echo d0ck3r.c0m | docker login -u %DOCKER_USER% --password-stdin
+                            docker login -u %DOCKER_USER% -p %DOCKER_PASS%
                         """
                         bat 'docker rmi -f %DOCKER_USER%/devops-app:latest'
                         bat 'docker build -t %DOCKER_USER%/devops-app .'
