@@ -35,7 +35,6 @@ pipeline {
                         bat """
                             echo %DOCKER_PASS% > pass.txt
                             docker login -u %DOCKER_USER% --password-stdin < pass.txt
-                            del pass.txt
                         """
 
                         bat 'docker rmi -f %DOCKER_USER%/devops-app:latest'
