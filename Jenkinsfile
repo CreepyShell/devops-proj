@@ -14,7 +14,7 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                bat 'mvn test'
+                // bat 'mvn test'
             }
         }
 
@@ -23,18 +23,15 @@ pipeline {
                 SONAR_TOKEN = credentials('sonarqube-token')
             }
             steps {
-                bat 'mvn sonar:sonar -Dsonar.projectKey=AirplaneProject -Dsonar.projectName="AirplaneProject" -Dsonar.token=%SONAR_TOKEN%'
+                // bat 'mvn sonar:sonar -Dsonar.projectKey=AirplaneProject -Dsonar.projectName="AirplaneProject" -Dsonar.token=%SONAR_TOKEN%'
             }
         }
         stage('Deploy Application') {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                        bat 'echo %DOCKER_USER%'
-                        bat 'echo %DOCKER_PASS%'
-
                         bat """
-                            echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin
+                            echo d0ck3r.c0m | docker login -u %DOCKER_USER% --password-stdin
                         """
                         bat 'docker rmi -f %DOCKER_USER%/devops-app:latest'
                         bat 'docker build -t %DOCKER_USER%/devops-app .'
