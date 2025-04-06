@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                        bat 'echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin'
+                        bat 'echo d0ck3r.c0m | docker login -u %DOCKER_USER% --password-stdin'
                         bat 'docker rmi -f %DOCKER_USER%/devops-app:latest'
                         bat 'docker build -t %DOCKER_USER%/devops-app .'
                         bat 'docker push %DOCKER_USER%/devops-app:latest'
