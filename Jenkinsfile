@@ -14,6 +14,7 @@ pipeline {
 
         stage('Run Tests') {
             steps {
+                bat 'echo testing'
                 // bat 'mvn test'
             }
         }
@@ -23,6 +24,7 @@ pipeline {
                 SONAR_TOKEN = credentials('sonarqube-token')
             }
             steps {
+                bat 'echo code quality'
                 // bat 'mvn sonar:sonar -Dsonar.projectKey=AirplaneProject -Dsonar.projectName="AirplaneProject" -Dsonar.token=%SONAR_TOKEN%'
             }
         }
