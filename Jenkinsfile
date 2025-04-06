@@ -28,9 +28,15 @@ pipeline {
         }
         stage('Deploy Application') {
             steps {
-                bat 'docker build -t devops-app .'
-                // bat 'docker run -p 9090:9090 -e APP_PORT=9090 devops-app'
-                bat 'docker ps'
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        bat 'echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin'
+                        bat 'docker rmi -f %DOCKER_USER%/devops-app:latest'
+                        bat 'docker build -t %DOCKER_USER%/devops-app .'
+                        bat 'docker push %DOCKER_USER%/devops-app:latest'
+                        bat 'docker ps'
+                    }
+                }
             }
         }
     }
