@@ -33,7 +33,7 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'docker-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                         bat """
-                            echo %DOCKER_PASS% > pass.txt
+                            echo|set /p=%DOCKER_PASS%>pass.txt
                             docker login -u %DOCKER_USER% --password-stdin < pass.txt
                         """
 
