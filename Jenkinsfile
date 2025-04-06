@@ -15,7 +15,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 bat 'echo testing'
-                // bat 'mvn test'
+                bat 'mvn test'
             }
         }
 
@@ -25,7 +25,7 @@ pipeline {
             }
             steps {
                 bat 'echo code quality'
-                // bat 'mvn sonar:sonar -Dsonar.projectKey=AirplaneProject -Dsonar.projectName="AirplaneProject" -Dsonar.token=%SONAR_TOKEN%'
+                bat 'mvn sonar:sonar -Dsonar.projectKey=AirplaneProject -Dsonar.projectName="AirplaneProject" -Dsonar.token=%SONAR_TOKEN%'
             }
         }
         stage('Deploy Application') {
@@ -35,8 +35,8 @@ pipeline {
                         bat """
                             echo %DOCKER_PASS%>pass.txt
                             docker login -u %DOCKER_USER% --password-stdin < pass.txt
+                            del pass.txt    
                         """
-
                         bat 'docker rmi -f %DOCKER_USER%/devops-app:latest'
                         bat 'docker build -t %DOCKER_USER%/devops-app .'
                         bat 'docker push %DOCKER_USER%/devops-app:latest'
