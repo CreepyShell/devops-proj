@@ -50,6 +50,7 @@ pipeline {
                 withCredentials([file(credentialsId: 'ec2-ssh-key', variable: 'PEM_FILE')]) {
                     powershell """
                         icacls "\$env:PEM_FILE" /inheritance:r
+                        icacls "\$env:PEM_FILE"
                         icacls "\$env:PEM_FILE" /remove "Everyone" /remove "Users" /remove "Administrators" /remove "System" /remove "Authenticated Users"
                         \$CurrentUser = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
                         echo \$CurrentUser
