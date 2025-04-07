@@ -49,7 +49,7 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'ec2-ssh-key', variable: 'PEM_FILE')]) {
                     bat """
-                        ssh -i dev-ops.pem -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ec2-user@18.211.145.3    
+                        ssh -i dev-ops.pem ec2-user@18.211.145.3    
                         docker pull dockeruser1980/devops-app:latest
                     """
                      // ssh -i %PEM_FILE% -o StrictHostKeyChecking=no ec2-user@18.211.145.3 ^
