@@ -54,7 +54,7 @@ pipeline {
                         \$CurrentUser = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
                         echo \$CurrentUser
                         cmd.exe /c icacls "\$env:PEM_FILE" /grant \$CurrentUser":R"
-                        icacls "PEM_FILE\"
+                        icacls "PEM_FILE"
                     """
                     bat """
                         ssh -tt -i \$env:%PEM_FILE% ec2-user@18.211.145.3    
