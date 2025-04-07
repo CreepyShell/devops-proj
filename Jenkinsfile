@@ -48,21 +48,26 @@ pipeline {
         stage('Deploy to EC2') {
             steps {
                 script {
-                    publishOverSsh(
-                        publisher: [
-                            configName: 'ec2-dev-ops',
-                            transfers: [],
-                            execCommand: '''
-                                docker rm -f devops-app || true
-                                docker pull dockeruser1980/devops-app:latest
-                                docker run -d --name devops-app -p 9090:8080 --restart unless-stopped dockeruser1980/devops-app:latest
-                            '''
-                        ],
-                        failOnError: true
-                    )
+                    step([
+                        $class: 'BapSshPublisherPlugin',
+                        publishers: [
+                            [
+                                configName: 'ec2-dev-ops',
+                                transfers: [],
+                                usePromotionTimestamp: false,
+                                useWorkspaceInPromotion: false,
+                                verbose: true,
+                                execCommand: '''
+                                    docker rm -f devops-app || true
+                                    docker pull dockeruser1980/devops-app:latest
+                                    docker run -d --name devops-app -p 9090:8080 --restart unless-stopped dockeruser1980/devops-app:latest
+                                '''
+                            ]
+                        ]
+                    ])
                 }
             }
-        }  
+        }
     }
     post {
         failure {
