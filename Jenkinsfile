@@ -49,14 +49,14 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'ec2-ssh-key', variable: 'PEM_FILE')]) {
                     powershell """
-                        icacls "\$env:%PEM_FILE%" /inheritance:r
-                        icacls "\$env:%PEM_FILE%" /remove "Everyone" /remove "Users" /remove "Administrators" /remove "System" /remove "Authenticated Users"
+                        icacls "\$env:PEM_FILE%" /inheritance:r
+                        icacls "\$env:PEM_FILE%" /remove "Everyone" /remove "Users" /remove "Administrators" /remove "System" /remove "Authenticated Users"
                         \$CurrentUser = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
                         echo \$CurrentUser
-                        cmd.exe /c icacls "\$env:%PEM_FILE%" /grant \$CurrentUser":R"
-                        icacls "%PEM_FILE%"
+                        cmd.exe /c icacls "\$env:PEM_FILE" /grant \$CurrentUser":R"
+                        icacls "PEM_FILE\"
                     """
-                    powershell """
+                    bat """
                         ssh -tt -i \$env:%PEM_FILE% ec2-user@18.211.145.3    
                         docker pull dockeruser1980/devops-app:latest
                     """
