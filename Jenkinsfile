@@ -49,8 +49,7 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'ec2-ssh-key', variable: 'PEM_FILE')]) {
                     bat """
-                        ssh -i %PEM_FILE% -o StrictHostKeyChecking=no -o "IdentitiesOnly yes" -o "StrictModes no" ec2-user@18.211.145.3
-                
+                        ssh -i %PEM_FILE% -o StrictHostKeyChecking=no -o IdentitiesOnly=yes ec2-user@18.211.145.3    
                     """
                      // ssh -i %PEM_FILE% -o StrictHostKeyChecking=no ec2-user@18.211.145.3 ^
                      //    "docker rm -f devops-app || true"
