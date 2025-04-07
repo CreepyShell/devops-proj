@@ -54,7 +54,7 @@ pipeline {
                         icacls "%PEM_FILE%" /grant "USERS:R"
                     """
                     bat """
-                        ssh -t -i dev-ops.pem ec2-user@18.211.145.3    
+                        ssh -t -i %PEM_FILE% ec2-user@18.211.145.3    
                         docker pull dockeruser1980/devops-app:latest
                     """
                      // ssh -i %PEM_FILE% -o StrictHostKeyChecking=no ec2-user@18.211.145.3 ^
