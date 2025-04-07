@@ -51,8 +51,9 @@ pipeline {
                     powershell """
                         icacls "%PEM_FILE%" /inheritance:r
                         icacls "%PEM_FILE%" /remove "Everyone" /remove "Users" /remove "Administrators" /remove "System" /remove "Authenticated Users"
-                        $CurrentUser = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
-                        cmd.exe /c icacls "%PEM_FILE%" /grant $CurrentUser":R"
+                        \$CurrentUser = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
+                        echo \$CurrentUser
+                        cmd.exe /c icacls "%PEM_FILE%" /grant \$CurrentUser":R"
                         icacls "%PEM_FILE%"
                     """
                     powershell """
