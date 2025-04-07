@@ -49,7 +49,7 @@ pipeline {
             steps {
                 script {
                     step([
-                        $class: 'BapSshPublisherPlugin',
+                        $class: 'BapSshPublisher',
                         publishers: [
                             [
                                 configName: 'ec2-dev-ops',
