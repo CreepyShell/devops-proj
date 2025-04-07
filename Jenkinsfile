@@ -48,12 +48,14 @@ pipeline {
         stage('Deploy to EC2') {
             steps {
                 withCredentials([file(credentialsId: 'ec2-ssh-key', variable: 'PEM_FILE')]) {
-                    bat """
+                    powershell """
                         icacls "%PEM_FILE%" /inheritance:r
                         icacls "%PEM_FILE%" /remove "Everyone" /remove "Users" /remove "Administrators" /remove "System" /remove "Authenticated Users"
-                        icacls "%PEM_FILE%" /grant "USERS:R"
+                        $CurrentUser = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
+                        cmd.exe /c icacls "%PEM_FILE%" /grant $CurrentUser":R"
+                        icacls "%PEM_FILE%"
                     """
-                    bat """
+                    powershell """
                         ssh -tt -i %PEM_FILE% ec2-user@18.211.145.3    
                         docker pull dockeruser1980/devops-app:latest
                     """
