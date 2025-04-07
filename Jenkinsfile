@@ -47,31 +47,19 @@ pipeline {
         // }
         stage('Deploy to EC2') {
             steps {
-                script {
-                    step([
-                        $class: 'BapSshPublisher',
-                        publishers: [
-                            [
-                                configName: 'ec2-dev-ops',
-                                transfers: [],
-                                usePromotionTimestamp: false,
-                                useWorkspaceInPromotion: false,
-                                verbose: true,
-                                execs: [
-                                    [
-                                        $class: 'BapSshExec',
-                                        command: '''
-                                            docker rm -f devops-app || true
-                                            docker pull dockeruser1980/devops-app:latest
-                                            docker run -d --name devops-app -p 9090:8080 --restart unless-stopped dockeruser1980/devops-app:latest
-                                        '''
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ])
+                withCredentials([file(credentialsId: 'ec2-ssh-key', variable: 'PEM_FILE')]) {
+                    bat """
+                        ssh -i %PEM_FILE% -o StrictHostKeyChecking=no ec2-user@18.211.145.3 ^
+                        "docker rm -f devops-app || true"
+        
+                        ssh -i %PEM_FILE% -o StrictHostKeyChecking=no ec2-user@18.211.145.3 ^
+                        "docker pull dockeruser1980/devops-app:latest"
+        
+                        ssh -i %PEM_FILE% -o StrictHostKeyChecking=no ec2-user@18.211.145.3 ^
+                        "docker run -d --name devops-app -p 9090:8080 --restart unless-stopped dockeruser1980/devops-app:latest"
+                    """
                 }
-            }
+            }    
         }
     }
     post {
