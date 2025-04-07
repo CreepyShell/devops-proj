@@ -57,8 +57,7 @@ pipeline {
                         icacls "\$env:PEM_FILE"
                     """
                     bat """
-                        ssh -tt -i %PEM_FILE% ec2-user@18.211.145.3    
-                        docker pull dockeruser1980/devops-app:latest
+                        ssh -i %PEM_FILE% ec2-user@18.211.145.3 'docker pull dockeruser1980/devops-app:latest';exit
                     """
                      // ssh -i %PEM_FILE% -o StrictHostKeyChecking=no ec2-user@18.211.145.3 ^
                      //    "docker rm -f devops-app || true"
