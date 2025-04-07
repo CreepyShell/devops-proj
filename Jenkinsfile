@@ -49,6 +49,11 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'ec2-ssh-key', variable: 'PEM_FILE')]) {
                     bat """
+                        icacls "%PEM_FILE%" /inheritance:r
+                        icacls "%PEM_FILE%" /remove "Everyone" /remove "Users" /remove "Administrators" /remove "System" /remove "Authenticated Users"
+                        icacls "%PEM_FILE%" /grant "USERS:R"
+                    """
+                    bat """
                         ssh -t -i dev-ops.pem ec2-user@18.211.145.3    
                         docker pull dockeruser1980/devops-app:latest
                     """
