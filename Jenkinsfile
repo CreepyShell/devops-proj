@@ -64,7 +64,7 @@ pipeline {
                         ssh -i %PEM_FILE% ec2-user@18.211.145.3 "docker pull dockeruser1980/devops-app:latest"
                     '''
                      bat '''
-                        ssh -i %PEM_FILE% ec2-user@18.211.145.3 "docker run -d --name devops-app -p 9090:8080 --restart unless-stopped dockeruser1980/devops-app:latest"
+                        ssh -i %PEM_FILE% ec2-user@18.211.145.3 "docker run -d --name devops-app --network monitoring-net -p 9090:8080 --restart unless-stopped dockeruser1980/devops-app:latest"
                     '''
                 }
             }    
