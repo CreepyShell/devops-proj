@@ -33,6 +33,10 @@ public class LocationAPI extends NanoHTTPD {
             String routesTxt = fileService.readFromFile("routes.json");
             return newFixedLengthResponse(NanoHTTPD.Response.Status.OK, "application/json", routesTxt);
         }
+        if ("/get-private-plain".equals(url)) {
+            String privatePlaneTxt = fileService.readFromFile("privatePlanes.json");
+            return newFixedLengthResponse(NanoHTTPD.Response.Status.OK, "application/json", privatePlaneTxt);
+        }
         if ("/prom-metrics".equals(url)) {
             try {
                 Writer writer = new StringWriter();
