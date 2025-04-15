@@ -46,6 +46,6 @@ public class LocationAPI extends NanoHTTPD {
                 return newFixedLengthResponse(Response.Status.INTERNAL_ERROR, "text/plain", "Error generating metrics");
             }
         }
-        return newFixedLengthResponse("Page not found, try another url");
+        return newFixedLengthResponse("<h1>Page not found</h1><br><h3>Please verify the url</h3>");
     }
 }
