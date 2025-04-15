@@ -46,6 +46,6 @@ public class LocationAPI extends NanoHTTPD {
                 return newFixedLengthResponse(Response.Status.INTERNAL_ERROR, "text/plain", "Error generating metrics");
             }
         }
-        return newFixedLengthResponse("Welcome to JFrame HTTP Server");
+        return newFixedLengthResponse("Page not found, try another url");
     }
 }
