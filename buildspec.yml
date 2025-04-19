@@ -1,0 +1,18 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region <your-region> | docker login --username AWS --password-stdin 650251698725.dkr.ecr.us-east-1.amazonaws.com/cloud/airplane-project
+      - REPOSITORY_URI=650251698725.dkr.ecr.us-east-1.amazonaws.com/cloud/airplane-project
+      - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+  build:
+    commands:
+      - echo Building the Docker image...
+      - docker build -t $REPOSITORY_URI:$IMAGE_TAG .
+  post_build:
+    commands:
+      - echo Pushing the Docker image to ECR...
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - echo "Image pushed: $REPOSITORY_URI:$IMAGE_TAG"
