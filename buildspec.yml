@@ -15,7 +15,7 @@ phases:
       - echo Building the Docker image...
       - docker build -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
-  post_build:
+   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker images...
@@ -23,5 +23,8 @@ phases:
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Writing image definitions file...
       - printf '[{"name":"cloud-container","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - echo "Verifying imagedefinitions.json exists..."
+      - ls -l imagedefinitions.json
+      - cat imagedefinitions.json
 artifacts:
     files: imagedefinitions.json
