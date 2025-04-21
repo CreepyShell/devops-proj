@@ -16,6 +16,7 @@ phases:
       - REPOSITORY_URI=650251698725.dkr.ecr.us-east-1.amazonaws.com/cloud/airplaine-proj
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
+      - echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
       - echo Building Java project...
       - mvn clean install
 
