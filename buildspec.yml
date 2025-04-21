@@ -1,14 +1,23 @@
 version: 0.2
 
 phases:
+  install:
+    runtime-versions:
+      java: corretto17
+    commands:
+      - echo Installing Maven...
+      - apt-get update
+      - apt-get install -y maven
+
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
-      - aws --version
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin 650251698725.dkr.ecr.us-east-1.amazonaws.com
       - REPOSITORY_URI=650251698725.dkr.ecr.us-east-1.amazonaws.com/cloud/airplaine-proj
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
+      - echo Building Java project...
+      - mvn clean install
 
   build:
     commands:
@@ -25,7 +34,6 @@ phases:
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Writing image definitions file...
       - printf '[{"name":"cloud-container","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
-      - echo "Verifying imagedefinitions.json exists..."
       - ls -l imagedefinitions.json
       - cat imagedefinitions.json
 
