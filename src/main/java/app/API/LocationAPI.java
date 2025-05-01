@@ -46,7 +46,7 @@ public class LocationAPI extends NanoHTTPD {
                 return newFixedLengthResponse(Response.Status.INTERNAL_ERROR, "text/plain", "Error generating metrics");
             }
         }
-        if("health".equals((url))){
+        if("/health".equals((url))){
             return newFixedLengthResponse(NanoHTTPD.Response.Status.OK, "application/json", "Application is healthy");
         }
         return newFixedLengthResponse(Response.Status.NOT_FOUND, "text/plain", "<h1>Resource your are looking for is not found</h1><br><h3>Please check another</h3>");
